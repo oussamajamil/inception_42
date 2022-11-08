@@ -1,24 +1,27 @@
-FROM debian:buster
+FROM alpine:3.11
 
-RUN apt-get update -y
-RUN apt-get install -y php php7.3-fpm
-RUN	apt-get install curl -y
-RUN apt-get install -y php-mysqli
-RUN apt-get -y install php-json
+RUN apk update && \
+	apk add --no-cache wget tar gettext \
+	php7-fpm php7-mysqli php7-json
+
+RUN wget https://wordpress.org/latest.tar.gz && \
+	tar -xvf latest.tar.gz && \
+	mkdir -p /var/www/wordpress && \
+	mv wordpress/* /var/www/wordpress/ && \
+	rm -rf latest.tar.gz wordpress
+COPY ./conf/wordpress /var/www/
+COPY ./conf/wp-config.php /tmp/
+COPY ./conf/www.conf /etc/php7/php-fpm.d/
+COPY ./tools/docker-entrypoint.sh .
+RUN chmod 777 docker-entrypoint.sh
 
 ENV MYSQL_DATABASE=inception
 ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_USER=ojamil
 ENV MYSQL_PASSWORD=root
 
-COPY ./tools/script.sh /
-RUN chmod +x script.sh
-RUN mkdir -p /var/run/php/
-
 
 EXPOSE 9000
-ENTRYPOINT [ "./script.sh" ]
-CMD [ "/usr/sbin/php-fpm7.3", "-F" ]
 
-
-
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["php-fpm7", "-F"]

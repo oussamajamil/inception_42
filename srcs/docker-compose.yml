@@ -8,6 +8,10 @@ services:
       - 443:443
     networks:
       - inception
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress-volumes:/var/www/wordpress
   mariadb:
     image: mariadb
     container_name: mariadb
@@ -24,6 +28,13 @@ services:
       - 9000:9000
     networks:
       - inception
+    depends_on:
+      - nginx
+    volumes:
+      - wordpress-volumes:/var/www/wordpress/ 
 
 networks:
   inception:
+
+volumes:
+  wordpress-volumes:

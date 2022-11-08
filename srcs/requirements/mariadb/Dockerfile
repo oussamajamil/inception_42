@@ -20,5 +20,5 @@ ENV MYSQL_PASSWORD=root
 RUN apk add mysql-client
 EXPOSE 3306
 
-ENTRYPOINT ["./script.sh"]
-CMD ["/usr/bin/mysqld", "--user=mysql", "--init-file=/tmp/init"]
+ENTRYPOINT sh ./script.sh
+# CMD ["/usr/bin/mysqld", "--user=mysql", "--init-file=/tmp/init"]
