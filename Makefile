@@ -1,7 +1,5 @@
-all: credit up
-credit:
-	
-build:
+
+all:
 	@docker-compose -f ./srcs/docker-compose.yml build
 
 up:
@@ -17,7 +15,7 @@ down:
 	@docker-compose -f ./srcs/docker-compose.yml down
 
 clean: down
-	@docker image rmi -f nginx wordpress mariadb adminer ftp redis website cadvisor
+	@docker image rmi -f nginx wordpress mariadb
 
 fclean: clean
 	@rm -rf /Users/oussama/Desktop/data/wordpress
