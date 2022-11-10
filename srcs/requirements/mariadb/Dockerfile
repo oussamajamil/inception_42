@@ -1,24 +1,15 @@
-FROM alpine:3.11
+FROM	alpine:3.12.0
 
-RUN apk update && \
-	apk add --no-cache mariadb
+RUN apk update \
+	apk add mariadb mariadb-client
 
-RUN mkdir -p /run/mysqld && \
-	chown -R mysql:mysql /run/mysqld /var/lib/mysql
+RUN		apk add openrc
+RUN		openrc
+RUN 	touch /run/openrc/softlevel
 
-RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
+RUN		apk add mariadb
 
-COPY ./tools/script.sh .
-COPY ./conf/my.cnf /etc/
+COPY	./tools/script.sh /
+RUN		chmod +x /script.sh
 
-RUN chmod +x script.sh
-ENV MYSQL_DATABASE=inception
-ENV MYSQL_ROOT_PASSWORD=root
-ENV MYSQL_USER=ojamil
-ENV MYSQL_PASSWORD=root
-
-RUN apk add mysql-client
-EXPOSE 3306
-
-ENTRYPOINT sh ./script.sh
-# CMD ["/usr/bin/mysqld", "--user=mysql", "--init-file=/tmp/init"]
+ENTRYPOINT	[ "/script.sh" ]

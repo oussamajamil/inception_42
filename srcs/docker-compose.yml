@@ -1,40 +1,59 @@
-version: '3.3'
+version: "3"
 services:
-  nginx:
-    image: nginx
-    container_name: ngnix
-    build: ./requirements/nginx/.
+  mariadb:
+    build: ./requirements/mariadb/
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    volumes:
+      - vl_mariadb:/var/lib/mysql
     ports:
-      - 443:443
+      - "3306:3306"
     networks:
-      - inception
+      - network
+    env_file:
+      - .env
+
+  wordpress:
+    build: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    restart: always
     depends_on:
       - mariadb
     volumes:
-      - wordpress-volumes:/var/www/wordpress
-  mariadb:
-    image: mariadb
-    container_name: mariadb
-    build: ./requirements/mariadb/.
+      - vl_wp:/var/www/html/
     ports:
-      - 3306:3306
+      - "9000:9000"
     networks:
-      - inception
-  wordpress:
-    image: wordpress
-    container_name: wordpress
-    build: ./requirements/wordpress/.
-    ports:
-      - 9000:9000
-    networks:
-      - inception
+      - network
+    env_file:
+      - .env
+
+  nginx:
+    build: ./requirements/nginx/
+    image: nginx
+    container_name: nginx
+    restart: always
     depends_on:
-      - nginx
+      - wordpress
     volumes:
-      - wordpress-volumes:/var/www/wordpress/ 
+      - vl_wp:/var/www/html
+    ports:
+      - "443:443"
+    networks:
+      - network
+    env_file:
+      - .env
+  
 
 networks:
-  inception:
+  network:
 
-volumes:
-  wordpress-volumes:
+volumes: 
+  vl_mariadb:
+  vl_wp:
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/oussama/Desktop/data
