@@ -1,6 +1,5 @@
-all: credit up
-credit:
-	
+all: up
+
 build:
 	@docker-compose -f ./srcs/docker-compose.yml build
 
