@@ -16,10 +16,10 @@ down:
 	@docker-compose -f ./srcs/docker-compose.yml down
 
 clean: down
-	@docker image rmi -f nginx wordpress mariadb adminer ftp redis website cadvisor
+	@docker image rmi -f nginx wordpress mariadb
 
 fclean: clean
-	@rm -rf /Users/oussama/Desktop/data/wordpress
+	@rm -rf /home/ojamil/data/wordpress
 	@docker volume rm srcs_vl_mariadb srcs_vl_wp
 
 re: fclean all

@@ -56,4 +56,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/oussama/Desktop/data
+      device: /home/ojamil/data
