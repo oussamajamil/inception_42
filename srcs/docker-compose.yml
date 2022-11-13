@@ -49,11 +49,16 @@ services:
 
 networks:
   network:
+    driver: bridge
 
 volumes: 
-  mariadb_vl:
   wordpress_vl:
     driver_opts:
       type: none
       o: bind
-      device: /home/ojamil/data
+      device: /home/ojamil/data/wordpress
+  mariadb_vl:
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ojamil/data/db

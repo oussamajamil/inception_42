@@ -19,7 +19,7 @@ clean: down
 	@docker image rmi -f nginx wordpress mariadb
 
 fclean: clean
-	@rm -rf /home/ojamil/data/wordpress
+	@rm -rf /home/ojamil/data/wordpress/*  /home/ojamil/data/db/*
 	@docker volume rm srcs_mariadb_vl srcs_wordpress_vl
 
 re: fclean all
