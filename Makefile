@@ -20,6 +20,6 @@ clean: down
 
 fclean: clean
 	@rm -rf /home/ojamil/data/wordpress
-	@docker volume rm srcs_vl_mariadb srcs_vl_wp
+	@docker volume rm srcs_mariadb_vl srcs_wordpress_vl
 
 re: fclean all
