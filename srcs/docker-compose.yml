@@ -6,7 +6,7 @@ services:
     container_name: mariadb
     restart: always
     volumes:
-      - vl_mariadb:/var/lib/mysql
+      - mariadb_vl:/var/lib/mysql
     ports:
       - "3306:3306"
     networks:
@@ -22,7 +22,7 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - vl_wp:/var/www/html/
+      - wordpress_vl:/var/www/html/
     ports:
       - "9000:9000"
     networks:
@@ -38,7 +38,7 @@ services:
     depends_on:
       - wordpress
     volumes:
-      - vl_wp:/var/www/html
+      - wordpress_vl:/var/www/html
     ports:
       - "443:443"
     networks:
@@ -51,8 +51,8 @@ networks:
   network:
 
 volumes: 
-  vl_mariadb:
-  vl_wp:
+  mariadb_vl:
+  wordpress_vl:
     driver_opts:
       type: none
       o: bind
