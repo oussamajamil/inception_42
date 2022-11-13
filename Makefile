@@ -13,10 +13,10 @@ start:
 	@docker-compose -f ./srcs/docker-compose.yml start
 
 down:
-	@docker-compose -f ./srcs/docker-compose.yml down -v
+	@docker-compose -f ./srcs/docker-compose.yml down
 
 clean: down
-	@docker rmi $(docker ps -aq)
+	@docker image rmi -f nginx wordpress mariadb
 
 fclean: clean
 	@rm -rf /home/ojamil/data/wordpress
